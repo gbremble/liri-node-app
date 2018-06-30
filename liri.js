@@ -1,4 +1,4 @@
-require('dotevnv').config();
+require('dotenv').config();
 
 var keys = require('./keys.js');
 // npm packages
@@ -7,25 +7,27 @@ var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
 
-var client = new Twitter(keys.twitter);
+var twitter = new Twitter(keys.twitter);
 var spotify = new Spotify(keys.spotify);
 
+var hr = "=========================###========================="
+
 var command = process.argv[2];
-var action = "";
+var searchQuery = "";
 
 var nodeArgv = process.argv;
 for (var i = 3; i < nodeArgv.length; i++) {
     if (i > 3 && i < nodeArgv.length) {
-        action = nodeArgv + "+" + nodeArgv[i];
+        searchQuery = nodeArgv + "+" + nodeArgv[i];
     } else {
-        action += nodeArgv[i];
+        searchQuery += nodeArgv[i];
     }
 }
 
 if (command === "my-tweets") {
     displayTweets();
 } else if (command === "spotify-this-song") {
-    // code
+    searchSpotify(searchQuery);
 } else if (command === "movie-this") {
     // code
 } else if (command === "do-what-it-says") {
@@ -36,12 +38,18 @@ if (command === "my-tweets") {
 
 function displayTweets() {
     var params = {
-        screen_name: 'nodejs',
+        screen_name: 'SimpsonsQOTD',
         count: 20
     };
-    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+    twitter.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            for (var i = 0; i < tweets.length; i++) {
+                console.log(hr + "\nDate Created: " + JSON.stringify(tweets[i].created_at) + "\n\nTweet:\n" + JSON.stringify(tweets[i].text) + "\n" + hr + "\n")
+            }
         }
     });
+}
+
+function searchSpotify() {
+    // code
 }
