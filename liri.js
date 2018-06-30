@@ -11,10 +11,10 @@ var twitter = new Twitter(keys.twitter);
 var spotify = new Spotify(keys.spotify);
 // reusable CLI "<hr> element"
 var hr = "=========================###=========================\n"
-
+// take user command
 var command = process.argv[2];
 var searchQuery = "";
-
+// take user search query (if any)
 var nodeArgv = process.argv;
 for (var i = 3; i < nodeArgv.length; i++) {
     if (i > 3 && i < nodeArgv.length) {
@@ -36,6 +36,7 @@ if (command === "my-tweets") {
     console.log("I'm sorry, I don't understand what you said.")
 }
 
+// ### FUNCTIONS ###
 function displayTweets() {
     var params = {
         screen_name: 'SimpsonsQOTD',
@@ -63,8 +64,6 @@ function searchSpotify() {
         if (error) {
             return console.log('Error occurred: ' + error);
         }
-        // var data = data.tracks.items;
-
         for (var i = 0; i < data.tracks.items.length; i++) {
             console.log(hr + "Artist: " + data.tracks.items[i].artists[0].name);
             console.log("Song Title: " + data.tracks.items[i].name);
