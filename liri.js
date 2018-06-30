@@ -6,10 +6,10 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
-
+// set up keys with dotenv
 var twitter = new Twitter(keys.twitter);
 var spotify = new Spotify(keys.spotify);
-
+// reusable CLI "<hr> element"
 var hr = "=========================###=========================\n"
 
 var command = process.argv[2];
@@ -31,7 +31,7 @@ if (command === "my-tweets") {
 } else if (command === "movie-this") {
     searchMovie();
 } else if (command === "do-what-it-says") {
-    // code
+    readTextFileCommand();
 } else {
     console.log("I'm sorry, I don't understand what you said.")
 }
@@ -81,7 +81,7 @@ function searchMovie() {
         searchQuery = "Mr Nobody";
     }
     console.log("Searching OMDb for " + searchQuery + "...\n")
-    var url = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchQuery;
+    var url = 'http://www.omdbapi.com/?apikey=trilogy&t=' + searchQuery;
     request(url, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(hr + "Title: " + JSON.parse(body).Title);
@@ -93,6 +93,30 @@ function searchMovie() {
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
             console.log(hr);
+        }
+    });
+}
+
+function readTextFileCommand() {
+    fs.readFile('random.txt', 'utf8', function (error, data) {
+        if (error) {
+            console.log(error);
+        }
+        dataArray = data.split(',');
+
+        var txtCommand = dataArray[0];
+        searchQuery = dataArray[1];
+
+        if (txtCommand === "my-tweets") {
+            displayTweets();
+        } else if (txtCommand === "spotify-this-song") {
+            searchSpotify();
+        } else if (txtCommand === "movie-this") {
+            searchMovie();
+        } else if (txtCommand === "do-what-it-says") {
+            console.log("Nice try. No infinite loops allowed here.")
+        } else {
+            console.log("I'm sorry, I don't understand what you said.")
         }
     });
 }
