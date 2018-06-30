@@ -29,11 +29,11 @@ if (command === "my-tweets") {
 } else if (command === "spotify-this-song") {
     searchSpotify();
 } else if (command === "movie-this") {
-    // code
+    searchMovie();
 } else if (command === "do-what-it-says") {
     // code
 } else {
-    console.log("I'm sorry, I didn't understand what you said.")
+    console.log("I'm sorry, I don't understand what you said.")
 }
 
 function displayTweets() {
@@ -72,6 +72,27 @@ function searchSpotify() {
             console.log("Album Title: " + data.tracks.items[i].album.name);
             console.log(hr);
         }
-        console.log("\n*=================* END OF DATA *==================*\n");
+        console.log("\n*================# END OF RESULTS #=================*\n");
+    });
+}
+
+function searchMovie() {
+    if (searchQuery === "") {
+        searchQuery = "Mr Nobody";
+    }
+    console.log("Searching OMDb for " + searchQuery + "...\n")
+    var url = "http://www.omdbapi.com/?apikey=trilogy&t=" + searchQuery;
+    request(url, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            console.log(hr + "Title: " + JSON.parse(body).Title);
+            console.log("Release Year: " + JSON.parse(body).Year);
+            console.log("IMDb Rating: " + JSON.parse(body).Ratings[0].Value);
+            console.log("Rotten Tomatoes Score: " + JSON.parse(body).Ratings[1].Value);
+            console.log("Produced: " + JSON.parse(body).Country);
+            console.log("Language(s): " + JSON.parse(body).Language);
+            console.log("Plot: " + JSON.parse(body).Plot);
+            console.log("Actors: " + JSON.parse(body).Actors);
+            console.log(hr);
+        }
     });
 }
