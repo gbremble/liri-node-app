@@ -19,7 +19,7 @@
   "homepage": "https://github.com/gbremble/liri-node-app#readme",
   "dependencies": {
     "dotenv": "^6.2.0",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "node-spotify-api": "^1.0.7",
     "request": "^2.88.0",
     "twitter": "^1.7.1"
